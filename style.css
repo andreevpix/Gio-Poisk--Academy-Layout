@@ -1,0 +1,17 @@
+/* Карточка фильма|сериала */
+.item--film {
+	margin: 10px 4% 10px;
+	border: 1px solid #e8f0fe;
+	text-align: center;
+}
+
+/* ... */
+p {
+	margin: 10px 0 10px;
+}
+br {
+	content: '';
+  display: block;
+	background-color: #e8f0fe;
+  height: 1px;
+}
