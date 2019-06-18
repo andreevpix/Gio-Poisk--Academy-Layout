@@ -53,12 +53,11 @@ function requestApi(method, url) {
             let releaseDate = '';
 
             //Жанр фильма|сериала
-            let rubric = '';
+            //let rubric = '';
 
             //Формирование строки даты выхода серии|фильма
             if (!item.release_date && item.first_air_date) {
                 releaseDate = 'Дата выхода серии: ' + item.first_air_date;
-                rubric = 'Рубрика: Сери'
             } else if (item.release_date && !item.first_air_date) {
                 releaseDate = 'Дата выхода фильма: ' + item.release_date;
             } else {
