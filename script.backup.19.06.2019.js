@@ -1,7 +1,5 @@
 const searchForm = document.querySelector("#search-form");
 const movie = document.querySelector("#movies");
-const urlPoster = 'https://image.tmdb.org/t/p/w500';
-const urlPosterNotFind = './img/not_loaded.jpg';
 
 function apiSearch(event) {
 
@@ -14,14 +12,15 @@ function apiSearch(event) {
     //Вывод строки 'Загрузка' после нажатия Enter
     movie.innerHTML = 'Загрузка...';
 
-    fetch(server[0])
-        .then((value) => {
-            if (value.status !== 200) {
-                return Promise.reject(new Error(value.status));
-            }
-            return value.json();
-        })
-        .then((output) => {
+    requestApi(server)
+        .then(function (result) {
+
+            //Фильтрация JSON фильма|сериала
+            const output = JSON.parse(result);
+            
+            //Фильтрация JSON жанра фильма|сериала
+            // const outputGenre = JSON.parse(requestGenre.responseText);
+            
             let inner = '';
 
             //Конечный вывод результата
@@ -42,32 +41,58 @@ function apiSearch(event) {
                     releaseDate = 'Дата выхода неизвестна';
                 }
 
-                //Формирование ссылки изображения
-                if (!item.poster_path) {
-                    var poster = urlPosterNotFind;
-                } else {
-                    poster = urlPoster + item.poster_path;
-                };
-                
                 inner += `
-                    <section class="col-5 item--film">
-                        <img src="${poster}" alt="${nameItem}" />
-                            <section class="item--film--info">
-                                <p>${nameItem}</p>
-                                <br>
-                                <p>${releaseDate}</p>
-                            </section>
-                    </section>
+                <div class="col-5 item--film">
+                <p>${nameItem}</p>
+                <br>
+                <p>${releaseDate}</p>
+                </div>
                 `;
             });
 
             //вывод в HTML
             movie.innerHTML = inner;
         })
-        .catch((reason) => {
+        .catch(function (reaseon) {
             movie.innerHTML = 'Что-то пошло не так';
-            console.error('error ' + reason);
+            console.log('error ' + reaseon.status);
+        })
+        ;
+
+};
+
+function requestApi(url) {
+
+    //Получение информации о фильме|сериале
+    //Promise - обещание
+    return new Promise (function (resolve, reject) {
+
+        const request = new XMLHttpRequest();
+        request.open('GET', url[0]);
+
+        //Получение информации о жанре
+        // const requestGenre = new XMLHttpRequest();
+        // requestGenre.open('GET', url[1]);
+        // requestGenre.send();
+
+        request.addEventListener('load', function () {
+            if (request.status !== 200) {
+                reject({status: request.status});
+                return;
+        };
+
+        resolve(request.response);
+
+    });
+
+        //Описание ошибки
+        request.addEventListener('error', function () {
+            reject({status: request.status});
         });
+
+        request.send();
+
+    });
 };
 
 searchForm.addEventListener('submit', apiSearch);

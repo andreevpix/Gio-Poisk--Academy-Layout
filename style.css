@@ -11,7 +11,12 @@ p {
 }
 br {
 	content: '';
-  display: block;
+	display: block;
 	background-color: #e8f0fe;
-  height: 1px;
+	height: 1px;
+}
+img {
+	margin: 5% 0;
+	max-width: 100%;
+	max-height: 500px;;
 }
