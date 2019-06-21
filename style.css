@@ -20,3 +20,20 @@ img {
 	max-width: 100%;
 	max-height: 500px;;
 }
+.spinner {
+	margin: 0 auto;
+	width: 100px;
+	height: 100px;
+	border: 10px dashed;
+	border-radius: 50%;
+	border-left-color: transparent;
+	border-top-color: #aaa;
+	border-right-color: #555;
+	border-bottom-color: #000;
+	animation: spin 500ms infinite linear;
+}
+@keyframes spin {
+	100%{
+		transform: rotate(360deg);
+	}
+}
